@@ -14,6 +14,10 @@
 
 FROM alpine:3.21.0
 
+ENV HTTP_PROXY=http://192.168.1.5:7890/
+ENV HTTPS_PROXY=http://192.168.1.5:7890/
+ENV NO_PROXY=localhost,127.0.0.1,jjpt.harbor.com,dockerhub.kubekey.local
+
 ARG BINARY
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk add --no-cache ca-certificates

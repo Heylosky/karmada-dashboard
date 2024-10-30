@@ -83,16 +83,11 @@ func toNodeList(nodes []v1.Node, nonCriticalErrors []error, dsQuery *dataselect.
 
 func NewStatus(status v1.NodeStatus) v1.NodeStatus {
 	return v1.NodeStatus{
-<<<<<<< HEAD
 		Capacity:        status.Capacity,
 		Allocatable:     status.Allocatable,
 		Conditions:      status.Conditions,
 		Addresses:       status.Addresses,
 		DaemonEndpoints: status.DaemonEndpoints,
 		NodeInfo:        status.NodeInfo,
-=======
-		Addresses: status.Addresses,
-		Capacity:  status.Capacity,
->>>>>>> 85dc8cf (add node status)
 	}
 }

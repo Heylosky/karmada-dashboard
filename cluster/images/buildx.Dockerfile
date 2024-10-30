@@ -12,13 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# FROM alpine:3.20.3
+
+# ARG BINARY
+# ARG TARGETPLATFORM
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+# RUN apk add --no-cache ca-certificates
+# #tzdata is used to parse the time zone information when using CronFederatedHPA
+# RUN apk add --no-cache tzdata
+
+# COPY ${BINARY} /bin/${BINARY}
+
+
 FROM alpine:3.20.3
 
 ARG BINARY
 ARG TARGETPLATFORM
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN apk add --no-cache ca-certificates
-#tzdata is used to parse the time zone information when using CronFederatedHPA
-RUN apk add --no-cache tzdata
+RUN export HTTP_PROXY="http://192.168.1.5:7890" HTTPS_PROXY="http://192.168.1.5:7890" && \
+	apk add --no-cache ca-certificates  && \
+	apk add --no-cache tzdata
 
 COPY ${BINARY} /bin/${BINARY}

@@ -20,6 +20,7 @@ type Node struct {
 	KubernetesVersion  string                 `json:"kubernetesVersion,omitempty"`
 	NodeSummary        *v1alpha1.NodeSummary  `json:"nodeSummary,omitempty"`
 	AllocatedResources NodeAllocatedResources `json:"allocatedResources"`
+	Status             v1.NodeStatus          `json:"status"`
 }
 
 // NodeList contains a list of node.
@@ -57,10 +58,11 @@ func GetNodeListFromChannels(channels *common.ResourceChannels, dsQuery *datasel
 	return result, nil
 }
 
-func toNode(meta metav1.ObjectMeta) Node {
+func toNode(meta metav1.ObjectMeta, status v1.NodeStatus) Node {
 	return Node{
 		ObjectMeta: types.NewObjectMeta(meta),
 		TypeMeta:   types.NewTypeMeta(types.ResourceKindNode),
+		Status:     NewStatus(status),
 	}
 }
 
@@ -76,8 +78,15 @@ func toNodeList(nodes []v1.Node, nonCriticalErrors []error, dsQuery *dataselect.
 	result.ListMeta = types.ListMeta{TotalItems: filteredTotal}
 
 	for _, item := range nodes {
-		result.Items = append(result.Items, toNode(item.ObjectMeta))
+		result.Items = append(result.Items, toNode(item.ObjectMeta, item.Status))
 	}
 
 	return result
+}
+
+func NewStatus(status v1.NodeStatus) v1.NodeStatus {
+	return v1.NodeStatus{
+		Addresses: status.Addresses,
+		Capacity:  status.Capacity,
+	}
 }

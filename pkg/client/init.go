@@ -269,7 +269,7 @@ func InClusterClientForMemberCluster(clusterName string) kubeclient.Interface {
 		}
 	}
 
-	// Clientset for new member apiserver
+	// Client for new member apiserver
 	restConfig, _, err := GetKarmadaConfig()
 	if err != nil {
 		klog.ErrorS(err, "Could not get karmada restConfig")

@@ -15,9 +15,9 @@ export const MainLayout: FC = () => {
   const { width } = useWindowSize();
   const isSmallScreen = width !== null && width <= 768;
 
-  if (!authenticated) {
-    return <Navigate to="/login" />;
-  }
+  // if (!authenticated) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return (
     <>

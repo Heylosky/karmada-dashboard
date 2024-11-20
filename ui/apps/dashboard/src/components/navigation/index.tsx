@@ -8,7 +8,9 @@ import {
   supportedLangConfig,
   getLangTitle,
 } from '@/utils/i18n';
+import { clusterConfig, getClusterTitle } from '@/utils/cluster';
 import { Dropdown } from 'antd';
+import { fetchAndUpdateClusterConfig } from '@/utils/cluster';
 
 export interface IUserInfo {
   id: number;
@@ -22,6 +24,8 @@ interface INavigationProps {
   brandText?: string;
   userInfo?: IUserInfo;
 }
+
+fetchAndUpdateClusterConfig()
 
 const Navigation: FC<INavigationProps> = (props) => {
   const {
@@ -46,6 +50,23 @@ const Navigation: FC<INavigationProps> = (props) => {
             {/* placeholder for center element */}
           </div>
           <div className={styles.right}>
+            {/* cluster select components */}
+            <div className={styles.extra}>
+              <Dropdown
+                menu={{
+                  items: Object.keys(clusterConfig).map((lang) => {
+                    return {
+                      key: lang,
+                      label: getClusterTitle(lang),
+                    };
+                  }),
+                }}
+                placement="bottomLeft"
+                arrow
+              >
+                <button>成员集群选择</button>
+              </Dropdown>
+            </div>
             {/* extra components */}
             <div className={styles.extra}>
               <Dropdown

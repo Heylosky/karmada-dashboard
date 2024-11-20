@@ -8,6 +8,7 @@ import {
   DeleteCluster,
   GetClusterDetail,
 } from '@/services/cluster';
+import { NodeDetail } from '@/services/node';
 import {
   GetNodeDetail
 } from '@/services/node';
@@ -38,14 +39,6 @@ function getPercentColor(v: number): string {
   } else {
     return '#F5222D';
   }
-}
-
-interface NodeDetail {
-  items: Array<{
-    objectMeta: {
-      name: string;
-    };
-  }>;
 }
 
 interface ModalData {

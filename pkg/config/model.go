@@ -24,8 +24,9 @@ type MenuConfig struct {
 }
 
 type DashboardConfig struct {
-	DockerRegistries []DockerRegistry `yaml:"docker_registries" json:"docker_registries"`
-	ChartRegistries  []ChartRegistry  `yaml:"chart_registries" json:"chart_registries"`
-	MenuConfigs      []MenuConfig     `yaml:"menu_configs" json:"menu_configs"`
-	PathPrefix       string           `yaml:"path_prefix" json:"path_prefix"`
+	DockerRegistries  []DockerRegistry `yaml:"docker_registries" json:"docker_registries"`
+	ChartRegistries   []ChartRegistry  `yaml:"chart_registries" json:"chart_registries"`
+	MenuConfigs       []MenuConfig     `yaml:"menu_configs" json:"menu_configs"`
+	MemberMenuConfigs []MenuConfig     `yaml:"member_menu_configs" json:"member_menu_configs"`
+	PathPrefix        string           `yaml:"path_prefix" json:"path_prefix"`
 }

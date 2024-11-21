@@ -83,10 +83,11 @@ func InitDashboardConfig(k8sClient kubernetes.Interface, stopper <-chan struct{}
 
 func GetDashboardConfig() DashboardConfig {
 	return DashboardConfig{
-		DockerRegistries: dashboardConfig.DockerRegistries,
-		ChartRegistries:  dashboardConfig.ChartRegistries,
-		MenuConfigs:      dashboardConfig.MenuConfigs,
-		PathPrefix:       dashboardConfig.PathPrefix,
+		DockerRegistries:  dashboardConfig.DockerRegistries,
+		ChartRegistries:   dashboardConfig.ChartRegistries,
+		MenuConfigs:       dashboardConfig.MenuConfigs,
+		MemberMenuConfigs: dashboardConfig.MemberMenuConfigs,
+		PathPrefix:        dashboardConfig.PathPrefix,
 	}
 }
 

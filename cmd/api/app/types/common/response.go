@@ -22,8 +22,11 @@ func Fail(c *gin.Context, err error) {
 }
 
 func Response(c *gin.Context, err error, data interface{}) {
-	code := 200          // biz status code
-	message := "success" // biz status message
+	c.Header("Access-Control-Allow-Origin", "*")                        // 允许所有域名
+	c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS") // 允许的请求方法
+	c.Header("Access-Control-Allow-Headers", "Content-Type")            // 允许的请求头
+	code := 200                                                         // biz status code
+	message := "success"                                                // biz status message
 	if err != nil {
 		code = 500
 		message = err.Error()

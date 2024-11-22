@@ -42,7 +42,11 @@ const Navigation: FC<INavigationProps> = (props) => {
   const navigate = useNavigate();
   const handleClusterChange = (value: string) => {
     setCluster(value); // 更新上下文中的 cluster 值
-    navigate('/overview'); // 导航到目标页面
+    if (value === 'host') {
+      navigate('/overview');
+    } else {
+      navigate('/member/overview'); // 导航到目标页面
+    }
   };
   return (
     <>
@@ -62,24 +66,13 @@ const Navigation: FC<INavigationProps> = (props) => {
           <div className={styles.right}>
             {/* cluster select components */}
             <div className={styles.extra}>
-              {/* <Dropdown
-                menu={{
-                  items: Object.keys(clusterConfig).map((lang) => {
-                    return {
-                      key: lang,
-                      label: getClusterTitle(lang),
-                    };
-                  }),
-                }}
-                placement="bottomLeft"
-                arrow
-              >
-                <button>成员集群选择</button>
-              </Dropdown> */}
               <Select
                 onChange={handleClusterChange}
                 placeholder="成员集群选择"
               >
+                <Option key="host" value="host">
+                主集群
+                </Option>
                 {Object.keys(clusterConfig).map((lang) => (
                   <Option key={lang} value={lang}>
                     {getClusterTitle(lang)}

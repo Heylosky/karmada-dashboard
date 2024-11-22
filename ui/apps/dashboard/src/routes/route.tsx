@@ -6,6 +6,8 @@ import _ from 'lodash';
 import { MainLayout } from '@/layout';
 import ErrorBoundary from '@/components/error';
 import Overview from '@/pages/overview';
+import MemberOverview from '@/pages/member-cluster/overview';
+import MemberNodeView from '@/pages/member-cluster/resource/node';
 import {
   MultiCloudConfig,
   MultiCloudNamespace,
@@ -262,6 +264,34 @@ export function getRoutes() {
               handle: {
                 sidebarKey: 'THIRDPARTY',
                 sidebarName: i18nInstance.t('fb7f97d757a27c46d1e4f03287d9dd1f'),
+              },
+            },
+          ],
+        },
+        {
+          path: '/member/overview',
+          element: <MemberOverview />,
+          handle: {
+            sidebarKey: 'MEMBER_OVERVIEW',
+            sidebarName: i18nInstance.t('86385379cf9cfbc2c554944f1c054a45'),
+            icon: <Icons.overview {...IconStyles} />,
+          },
+        },
+        {
+          path: '/member/resource',
+          handle: {
+            sidebarKey: 'MEMBER_RESOURCE',
+            sidebarName: '集群资源',
+            icon: <Icons.resource {...IconStyles} />,
+            isPage: false,
+          },
+          children: [
+            {
+              path: 'node',
+              element: <MemberNodeView />,
+              handle: {
+                sidebarKey: 'MEMBER_RESOURCE_NODE',
+                sidebarName: '节点列表',
               },
             },
           ],

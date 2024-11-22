@@ -23,9 +23,6 @@ export const MainLayout: FC = () => {
 
   const { cluster } = useCluster(); // 获取 cluster 值
 
-  // const { cluster: currentCluster, setCluster } = useCluster(); // 获取 cluster 值
-  // const cluster = currentCluster || 'host'; // 如果 currentCluster 是空字符串，则使用默认值 'host'
-
   return (
     <>
       <Header />
@@ -37,7 +34,6 @@ export const MainLayout: FC = () => {
           breakpoint="lg"
           trigger={null}
         >
-          {/* <Sidebar collapsed={isSmallScreen} /> */}
           {cluster === 'host' ? <Sidebar collapsed={isSmallScreen} /> : <MemberSidebar collapsed={isSmallScreen} />}
         </AntdSider>
         <AntdContent >

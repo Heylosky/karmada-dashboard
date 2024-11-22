@@ -9,8 +9,10 @@ import {
   getLangTitle,
 } from '@/utils/i18n';
 import { clusterConfig, getClusterTitle } from '@/utils/cluster';
-import { Dropdown } from 'antd';
+import { Dropdown, Select } from 'antd';
 import { fetchAndUpdateClusterConfig } from '@/utils/cluster';
+import { useCluster } from '@/hooks/cluster-context';
+import { useNavigate } from 'react-router-dom';
 
 export interface IUserInfo {
   id: number;
@@ -27,6 +29,8 @@ interface INavigationProps {
 
 fetchAndUpdateClusterConfig()
 
+const { Option } = Select;
+
 const Navigation: FC<INavigationProps> = (props) => {
   const {
     headerStyle = {},
@@ -34,6 +38,12 @@ const Navigation: FC<INavigationProps> = (props) => {
     brandText = 'Karmada Dashboard',
     userInfo,
   } = props;
+  const { setCluster } = useCluster(); // 获取 setCluster 函数
+  const navigate = useNavigate();
+  const handleClusterChange = (value: string) => {
+    setCluster(value); // 更新上下文中的 cluster 值
+    navigate('/overview'); // 导航到目标页面
+  };
   return (
     <>
       <div className={styles.navbar}>
@@ -52,7 +62,7 @@ const Navigation: FC<INavigationProps> = (props) => {
           <div className={styles.right}>
             {/* cluster select components */}
             <div className={styles.extra}>
-              <Dropdown
+              {/* <Dropdown
                 menu={{
                   items: Object.keys(clusterConfig).map((lang) => {
                     return {
@@ -65,7 +75,17 @@ const Navigation: FC<INavigationProps> = (props) => {
                 arrow
               >
                 <button>成员集群选择</button>
-              </Dropdown>
+              </Dropdown> */}
+              <Select
+                onChange={handleClusterChange}
+                placeholder="成员集群选择"
+              >
+                {Object.keys(clusterConfig).map((lang) => (
+                  <Option key={lang} value={lang}>
+                    {getClusterTitle(lang)}
+                  </Option>
+                ))}
+              </Select>
             </div>
             {/* extra components */}
             <div className={styles.extra}>

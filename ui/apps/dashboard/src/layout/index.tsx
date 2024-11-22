@@ -1,12 +1,14 @@
-import { FC ,ReactNode} from 'react';
+import { FC ,ReactNode, useState} from 'react';
 import { Layout as AntdLayout } from 'antd';
 import { Outlet, Navigate } from 'react-router-dom';
 import Header from './header';
 import Sidebar from './sidebar';
+import MemberSidebar from './membersidebar';
 import { cn } from '@/utils/cn.ts';
 import { useAuth } from '@/components/auth';
 import { getSidebarWidth } from '@/utils/i18n';
 import { useWindowSize } from "@uidotdev/usehooks";
+import { useCluster } from '@/hooks/cluster-context';
 
 const { Sider: AntdSider, Content: AntdContent } = AntdLayout;
 
@@ -19,6 +21,11 @@ export const MainLayout: FC = () => {
   //   return <Navigate to="/login" />;
   // }
 
+  const { cluster } = useCluster(); // 获取 cluster 值
+
+  // const { cluster: currentCluster, setCluster } = useCluster(); // 获取 cluster 值
+  // const cluster = currentCluster || 'host'; // 如果 currentCluster 是空字符串，则使用默认值 'host'
+
   return (
     <>
       <Header />
@@ -30,7 +37,8 @@ export const MainLayout: FC = () => {
           breakpoint="lg"
           trigger={null}
         >
-          <Sidebar collapsed={isSmallScreen} />
+          {/* <Sidebar collapsed={isSmallScreen} /> */}
+          {cluster === 'host' ? <Sidebar collapsed={isSmallScreen} /> : <MemberSidebar collapsed={isSmallScreen} />}
         </AntdSider>
         <AntdContent >
           <Outlet />

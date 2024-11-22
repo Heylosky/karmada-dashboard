@@ -27,6 +27,7 @@ interface DashboardConfig {
   docker_registries: dockerRegistry[];
   chart_registries: chartRegistry[];
   menu_configs: menuConfig[];
+  member_menu_configs: menuConfig[];
 }
 
 export async function GetDashboardConfig() {

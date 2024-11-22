@@ -5,6 +5,7 @@ import { ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AuthProvider from '@/components/auth';
 import { getAntdLocale } from '@/utils/i18n.tsx';
+import { ClusterProvider } from './hooks/cluster-context';
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function App() {
         },
       }}
     >
+      <ClusterProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <HelmetProvider>
@@ -55,6 +57,7 @@ function App() {
           </HelmetProvider>
         </AuthProvider>
       </QueryClientProvider>
+      </ClusterProvider>
     </ConfigProvider>
   );
 }

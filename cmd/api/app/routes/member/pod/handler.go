@@ -31,5 +31,6 @@ func handleGetMemberPod(c *gin.Context) {
 
 func init() {
 	r := router.V1()
+	r.GET("/member/:clustername/pod", handleGetMemberPod)
 	r.GET("/member/:clustername/pod/:namespace", handleGetMemberPod)
 }

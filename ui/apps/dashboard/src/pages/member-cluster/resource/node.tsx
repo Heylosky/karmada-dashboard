@@ -3,8 +3,6 @@ import { useEffect } from 'react';
 import { GetNodeDetail } from '@/services/node';
 import { useState } from 'react';
 import { useCluster } from '@/hooks/cluster-context';
-import { useQuery } from '@tanstack/react-query';
-import { GetClusterDetail } from '@/services/cluster';
 
 // 定义 NodeItem 接口，表示 items 中每个节点的结构
 interface NodeItem {

@@ -37,6 +37,8 @@ import {
   Trash2,
   ChevronUp,
   ChevronDown,
+  LayoutGrid,
+  Activity,
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -60,6 +62,8 @@ export const Icons = {
   delete: Trash2,
   up: ChevronUp,
   down: ChevronDown,
+  node: LayoutGrid,
+  monitor: Activity,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

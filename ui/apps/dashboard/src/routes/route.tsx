@@ -8,6 +8,7 @@ import ErrorBoundary from '@/components/error';
 import Overview from '@/pages/overview';
 import MemberOverview from '@/pages/member-cluster/overview';
 import MemberNodeView from '@/pages/member-cluster/resource/node';
+import MemberPodView from '@/pages/member-cluster/resource/pod';
 import {
   MultiCloudConfig,
   MultiCloudNamespace,
@@ -278,20 +279,88 @@ export function getRoutes() {
           },
         },
         {
+          path: '/member/node',
+          element: <MemberNodeView />,
+          handle: {
+            sidebarKey: 'MEMBER_NODE',
+            sidebarName: '节点管理',
+            icon: <Icons.node {...IconStyles} />,
+          },
+        },
+        {
           path: '/member/resource',
           handle: {
             sidebarKey: 'MEMBER_RESOURCE',
-            sidebarName: '集群资源',
+            sidebarName: '资源管理',
             icon: <Icons.resource {...IconStyles} />,
             isPage: false,
           },
           children: [
             {
-              path: 'node',
-              element: <MemberNodeView />,
+              path: 'namespace',
+              element: <MultiCloudNamespace />,
               handle: {
-                sidebarKey: 'MEMBER_RESOURCE_NODE',
-                sidebarName: '节点列表',
+                sidebarKey: 'MEMBER_RESOURCE_NAMESPACE',
+                sidebarName: i18nInstance.t('a4b28a416f0b6f3c215c51e79e517298'),
+              },
+            },
+            {
+              path: 'workload',
+              element: <MultiCloudworkload />,
+              handle: {
+                sidebarKey: 'MEMBER_RESOURCE_WORKLOAD',
+                sidebarName: i18nInstance.t('c3bc562e9ffcae6029db730fe218515c'),
+              },
+            },
+            {
+              path: 'pod',
+              element: <MemberPodView />,
+              handle: {
+                sidebarKey: 'MEMBER_RESOURCE_POD',
+                sidebarName: '容器列表',
+              },
+            },
+            {
+              path: 'service',
+              element: <MultiCloudService />,
+              handle: {
+                sidebarKey: 'MEMBER_RESOURCE_SERVICE',
+                sidebarName: i18nInstance.t('4653569c7943335f62caa11e38d48aa0'),
+              },
+            },
+            {
+              path: 'config',
+              element: <MultiCloudConfig />,
+              handle: {
+                sidebarKey: 'MEMBER_RESOURCE_CONFIG',
+                sidebarName: i18nInstance.t('837d8a6473195b8b5e85d58a72cb9c7e'),
+              },
+            },
+            {
+              path: 'pv',
+              element: <MultiCloudConfig />,
+              handle: {
+                sidebarKey: 'MEMBER_RESOURCE_PV',
+                sidebarName: '存储管理',
+              },
+            },
+          ],
+        },
+        {
+          path: '/member/monitor',
+          handle: {
+            sidebarKey: 'MEMBER_MONITOR',
+            sidebarName: '监控告警',
+            icon: <Icons.monitor {...IconStyles} />,
+            isPage: false,
+          },
+          children: [
+            {
+              path: 'app',
+              element: <MemberPodView />,
+              handle: {
+                sidebarKey: 'MEMBER_MONITOR_APP',
+                sidebarName: '应用监控',
               },
             },
           ],

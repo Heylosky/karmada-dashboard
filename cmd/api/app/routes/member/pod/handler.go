@@ -29,8 +29,27 @@ func handleGetMemberPod(c *gin.Context) {
 	common.Success(c, result)
 }
 
+func handleGetMemberPodDetail(c *gin.Context) {
+	karmadaClient := client.InClusterKarmadaClient()
+	_, err := karmadaClient.ClusterV1alpha1().Clusters().Get(context.TODO(), c.Param("clustername"), metav1.GetOptions{})
+	if err != nil {
+		common.Fail(c, err)
+		return
+	}
+	memberClient := client.InClusterClientForMemberCluster(c.Param("clustername"))
+	namespace := c.Param("namespace")
+	name := c.Param("name")
+	result, err := pod.GetPodDetail(memberClient, namespace, name)
+	if err != nil {
+		common.Fail(c, err)
+		return
+	}
+	common.Success(c, result)
+}
+
 func init() {
 	r := router.MemberV1()
 	r.GET("/pod", handleGetMemberPod)
 	r.GET("/pod/:namespace", handleGetMemberPod)
+	r.GET("/pod/:namespace/:name", handleGetMemberPodDetail)
 }

@@ -15,7 +15,6 @@ import (
 type Pod struct {
 	ObjectMeta types.ObjectMeta `json:"objectMeta"`
 	TypeMeta   types.TypeMeta   `json:"typeMeta"`
-	Spec       v1.PodSpec       `json:"podSpec"`
 	Status     v1.PodStatus     `json:"status"`
 }
 
@@ -54,11 +53,10 @@ func GetPodListFromChannels(channels *common.ResourceChannels, dsQuery *datasele
 	return result, nil
 }
 
-func toPod(meta metav1.ObjectMeta, status v1.PodStatus, spec v1.PodSpec) Pod {
+func toPod(meta metav1.ObjectMeta, status v1.PodStatus) Pod {
 	return Pod{
 		ObjectMeta: types.NewObjectMeta(meta),
 		TypeMeta:   types.NewTypeMeta(types.ResourceKindPod),
-		Spec:       spec,
 		Status:     NewStatus(status),
 	}
 }
@@ -75,7 +73,7 @@ func toPodList(pods []v1.Pod, nonCriticalErrors []error, dsQuery *dataselect.Dat
 	result.ListMeta = types.ListMeta{TotalItems: filteredTotal}
 
 	for _, item := range pods {
-		result.Items = append(result.Items, toPod(item.ObjectMeta, item.Status, item.Spec))
+		result.Items = append(result.Items, toPod(item.ObjectMeta, item.Status))
 	}
 
 	return result

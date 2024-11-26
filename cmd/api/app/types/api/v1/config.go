@@ -6,5 +6,5 @@ type SetDashboardConfigRequest struct {
 	DockerRegistries  []config.DockerRegistry `json:"docker_registries"`
 	ChartRegistries   []config.ChartRegistry  `json:"chart_registries"`
 	MenuConfigs       []config.MenuConfig     `json:"menu_configs"`
-	MemberMenuConfigs []config.MenuConfig     `json:"menu_configs"`
+	MemberMenuConfigs []config.MenuConfig     `json:"member_menu_configs"`
 }

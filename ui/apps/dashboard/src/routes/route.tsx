@@ -7,7 +7,7 @@ import { MainLayout } from '@/layout';
 import ErrorBoundary from '@/components/error';
 import Overview from '@/pages/overview';
 import MemberOverview from '@/pages/member-cluster/overview';
-import MemberNodeView from '@/pages/member-cluster/resource/node';
+import MemberNodeView from '@/pages/member-cluster/node/node';
 import MemberPodView from '@/pages/member-cluster/resource/pod';
 import {
   MultiCloudConfig,
@@ -15,6 +15,7 @@ import {
   MultiCloudService,
   MultiCloudworkload,
 } from '@/pages/multicloud-resource-manage';
+import { MemberWorkload } from '@/pages/member-cluster/resource';
 import {
   MultiCloudOverridePolicy,
   MultiCloudPropagationPolicy,
@@ -306,7 +307,7 @@ export function getRoutes() {
             },
             {
               path: 'workload',
-              element: <MultiCloudworkload />,
+              element: <MemberWorkload />,
               handle: {
                 sidebarKey: 'MEMBER_RESOURCE_WORKLOAD',
                 sidebarName: i18nInstance.t('c3bc562e9ffcae6029db730fe218515c'),

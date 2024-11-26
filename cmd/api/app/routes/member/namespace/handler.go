@@ -68,8 +68,8 @@ func handleGetMemberNamespaceEvents(c *gin.Context) {
 }
 
 func init() {
-	r := router.V1()
-	r.GET("/member/:clustername/namespace", handleGetMemberNamespace)
-	r.GET("/member/:clustername/namespace/:name", handleGetMemberNamespaceDetail)
-	r.GET("/member/:clustername/namespace/:name/event", handleGetMemberNamespaceEvents)
+	r := router.MemberV1()
+	r.GET("/namespace", handleGetMemberNamespace)
+	r.GET("/namespace/:name", handleGetMemberNamespaceDetail)
+	r.GET("/namespace/:name/event", handleGetMemberNamespaceEvents)
 }

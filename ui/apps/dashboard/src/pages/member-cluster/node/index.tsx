@@ -1,4 +1,5 @@
 import { Table } from 'antd';
+import Panel from '@/components/panel';
 import { useEffect } from 'react';
 import { GetNodeDetail } from '@/services/node';
 import { useState } from 'react';
@@ -141,11 +142,13 @@ const MemberNodeView = () => {
     ];
 
     return (
-        <Table
+        <Panel>
+            <Table
             columns={columns}
             dataSource={dataSource}
             pagination={false} // 如果不需要分页，可以设置为 false
-        />
+            />
+        </Panel>
     );
 };
 

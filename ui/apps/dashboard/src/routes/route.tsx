@@ -6,9 +6,16 @@ import _ from 'lodash';
 import { MainLayout } from '@/layout';
 import ErrorBoundary from '@/components/error';
 import Overview from '@/pages/overview';
-import MemberOverview from '@/pages/member-cluster/overview';
-import MemberNodeView from '@/pages/member-cluster/node/node';
-import MemberPodView from '@/pages/member-cluster/resource/pod';
+import {
+  MemberOverview,
+  MemberNodeView,
+  MemberMonitor,
+} from '@/pages/member-cluster';
+import {
+  MemberPodView,
+  MemberNamespacePage,
+  MemberStoragePage,
+} from '@/pages/member-cluster/resource'
 import {
   MultiCloudConfig,
   MultiCloudNamespace,
@@ -299,7 +306,7 @@ export function getRoutes() {
           children: [
             {
               path: 'namespace',
-              element: <MultiCloudNamespace />,
+              element: <MemberNamespacePage />,
               handle: {
                 sidebarKey: 'MEMBER_RESOURCE_NAMESPACE',
                 sidebarName: i18nInstance.t('a4b28a416f0b6f3c215c51e79e517298'),
@@ -339,7 +346,7 @@ export function getRoutes() {
             },
             {
               path: 'pv',
-              element: <MultiCloudConfig />,
+              element: <MemberStoragePage />,
               handle: {
                 sidebarKey: 'MEMBER_RESOURCE_PV',
                 sidebarName: '存储管理',
@@ -358,7 +365,7 @@ export function getRoutes() {
           children: [
             {
               path: 'app',
-              element: <MemberPodView />,
+              element: <MemberMonitor />,
               handle: {
                 sidebarKey: 'MEMBER_MONITOR_APP',
                 sidebarName: '应用监控',

@@ -1,4 +1,4 @@
-import { karmadaClient } from './base';
+import { karmadaClient } from '../base';
 
 // 定义 PodList 接口
 export interface PodList {

@@ -10,7 +10,6 @@ import {
   Space,
   Table,
   TableColumnProps,
-  Tag,
 } from 'antd';
 import { Icons } from '@/components/icons';
 import { GetNamespaces } from '@/services/namespace';

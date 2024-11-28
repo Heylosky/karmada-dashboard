@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useCluster } from '@/hooks/cluster-context';
-import { PodList, PodDetail, GetPodDetail } from '@/services/pod';
+import { PodList, PodDetail, GetPodDetail } from '@/services/member/pod';
 import { Table } from 'antd';
+import Panel from '@/components/panel';
 
 const MemberPodView = () => {
     const { cluster } = useCluster();
@@ -14,7 +15,7 @@ const MemberPodView = () => {
             try {
                 const response = await GetPodDetail(cluster);
                 const podList: { data: PodList } = response; // 访问 data 属性
-                
+
                 if (podList && podList.data && podList.data.items) {
                     const data = podList.data.items.map((item: PodDetail) => { // 显式指定 item 的类型
                         // 将 labels 对象转换为字符串
@@ -90,11 +91,12 @@ const MemberPodView = () => {
     ];
 
     return (
-        <Table
-            columns={columns}
-            dataSource={dataSource}
-            pagination={false} // 如果不需要分页，可以设置为 false
-        />
+        <Panel>
+            <Table
+                columns={columns}
+                dataSource={dataSource}
+            />
+        </Panel>
     );
 };
 

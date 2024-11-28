@@ -9,6 +9,7 @@ var (
 	router *gin.Engine
 	v1     *gin.RouterGroup
 	member *gin.RouterGroup
+	apisv1 *gin.RouterGroup
 )
 
 func init() {
@@ -27,6 +28,8 @@ func init() {
 	router.GET("/readyz", func(c *gin.Context) {
 		c.String(200, "readyz")
 	})
+
+	apisv1 = router.Group("/apis")
 }
 
 func V1() *gin.RouterGroup {
@@ -39,4 +42,8 @@ func Router() *gin.Engine {
 
 func MemberV1() *gin.RouterGroup {
 	return member
+}
+
+func ApisV1() *gin.RouterGroup {
+	return apisv1
 }

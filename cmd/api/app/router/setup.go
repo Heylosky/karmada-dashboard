@@ -21,6 +21,7 @@ func init() {
 	_ = router.SetTrustedProxies(nil)
 	v1 = router.Group("/api/v1")
 	member = v1.Group("/member/:clustername")
+	member.Use(EnsureMemberClusterMiddleware())
 
 	router.GET("/livez", func(c *gin.Context) {
 		c.String(200, "livez")

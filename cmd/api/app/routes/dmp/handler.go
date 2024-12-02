@@ -2,7 +2,6 @@ package dmp
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -17,12 +16,18 @@ func handleDmpRequest(c *gin.Context) {
 	// 获取DMP请求路径
 	fullPath := "/apis" + c.Param("path")
 	url := "https://12.0.216.149:32443" + fullPath // 替换为你的 API 服务器 URL
-	fmt.Println(url)
+
+	// 获取查询参数并构建完整的 URL
+	queryParams := c.Request.URL.Query()
+	if len(queryParams) > 0 {
+		url += "?" + queryParams.Encode()
+	}
+	klog.Info(url)
 
 	// 加载客户端证书和私钥
 	cert, err := tls.LoadX509KeyPair("/etc/cert/client.crt", "/etc/cert/client.key")
 	if err != nil {
-		fmt.Println("Error loading client certificate:", err)
+		klog.ErrorS(err, "Error loading client certificate")
 		return
 	}
 
@@ -81,7 +86,7 @@ func handleDmpRequest(c *gin.Context) {
 	// 调用请求处理函数
 	resp, err := handler()
 	if err != nil {
-		fmt.Println("Error sending request:", err)
+		klog.ErrorS(err, "Error sending request")
 		return
 	}
 	defer resp.Body.Close()
@@ -94,9 +99,16 @@ func handleDmpRequest(c *gin.Context) {
 		c.Header("Content-Type", contentType)
 	}
 
+	// 将所有返回的 headers 添加到响应中
+	for key, values := range resp.Header {
+		for _, value := range values {
+			c.Header(key, value)
+		}
+	}
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("Error reading response body:", err)
+		klog.ErrorS(err, "Error reading response body")
 		return
 	}
 

@@ -287,22 +287,22 @@ func wsHandler(c *gin.Context) {
 	defer backendConn.Close()
 
 	klog.Info("开始ws消息处理")
-	// // 处理消息转发
-	// go func() {
-	// 	for {
-	// 		// 从客户端读取消息
-	// 		_, msg, err := conn.ReadMessage()
-	// 		if err != nil {
-	// 			klog.ErrorS(err, "读取ws信息失败")
-	// 			break
-	// 		}
-	// 		// 转发消息到后端
-	// 		if err := backendConn.WriteMessage(websocket.TextMessage, msg); err != nil {
-	// 			klog.ErrorS(err, "写DMP ws失败")
-	// 			break
-	// 		}
-	// 	}
-	// }()
+	// 处理消息转发
+	go func() {
+		for {
+			// 从客户端读取消息
+			_, msg, err := conn.ReadMessage()
+			if err != nil {
+				klog.ErrorS(err, "读取ws信息失败")
+				break
+			}
+			// 转发消息到后端
+			if err := backendConn.WriteMessage(websocket.TextMessage, msg); err != nil {
+				klog.ErrorS(err, "写DMP ws失败")
+				break
+			}
+		}
+	}()
 
 	for {
 		// 从后端读取消息

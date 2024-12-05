@@ -35,7 +35,7 @@ import {
   Upgrade,
 } from '@/pages/basic-config';
 import { Failover, Permission, Reschedule } from '@/pages/advanced-config';
-import { BuildInAddon, ThridPartyAddon } from '@/pages/addon';
+import { BuildInAddon, DMPListPage, ThridPartyAddon } from '@/pages/addon';
 import ClusterManage from '@/pages/cluster-manage';
 import Login from '@/pages/login';
 import { Icons } from '@/components/icons';
@@ -273,6 +273,14 @@ export function getRoutes() {
               handle: {
                 sidebarKey: 'THIRDPARTY',
                 sidebarName: i18nInstance.t('fb7f97d757a27c46d1e4f03287d9dd1f'),
+              },
+            },
+            {
+              path: 'dmp',
+              element: <DMPListPage />,
+              handle: {
+                sidebarKey: 'DMP',
+                sidebarName: "DMP",
               },
             },
           ],

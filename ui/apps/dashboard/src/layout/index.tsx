@@ -1,19 +1,21 @@
-import { FC ,ReactNode, useState} from 'react';
+import { FC, ReactNode } from 'react';
+// import useState from 'react';
 import { Layout as AntdLayout } from 'antd';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+// import Navigate from 'react-router-dom';
 import Header from './header';
 import Sidebar from './sidebar';
 import MemberSidebar from './membersidebar';
 import { cn } from '@/utils/cn.ts';
-import { useAuth } from '@/components/auth';
+// import { useAuth } from '@/components/auth';
 import { getSidebarWidth } from '@/utils/i18n';
-import { useWindowSize } from "@uidotdev/usehooks";
+import { useWindowSize } from '@uidotdev/usehooks';
 import { useCluster } from '@/hooks/cluster-context';
 
 const { Sider: AntdSider, Content: AntdContent } = AntdLayout;
 
 export const MainLayout: FC = () => {
-  const { authenticated } = useAuth();
+  // const { authenticated } = useAuth();
   const { width } = useWindowSize();
   const isSmallScreen = width !== null && width <= 768;
 
@@ -26,7 +28,9 @@ export const MainLayout: FC = () => {
   return (
     <>
       <Header />
-      <AntdLayout className={cn('h-[calc(100vh-48px)]', 'overflow-hidden', 'flex')}>
+      <AntdLayout
+        className={cn('h-[calc(100vh-48px)]', 'overflow-hidden', 'flex')}
+      >
         <AntdSider
           width={getSidebarWidth()}
           collapsible
@@ -34,9 +38,13 @@ export const MainLayout: FC = () => {
           breakpoint="lg"
           trigger={null}
         >
-          {cluster === 'host' ? <Sidebar collapsed={isSmallScreen} /> : <MemberSidebar collapsed={isSmallScreen} />}
+          {cluster === 'host' ? (
+            <Sidebar collapsed={isSmallScreen} />
+          ) : (
+            <MemberSidebar collapsed={isSmallScreen} />
+          )}
         </AntdSider>
-        <AntdContent >
+        <AntdContent>
           <Outlet />
         </AntdContent>
       </AntdLayout>

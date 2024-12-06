@@ -8,7 +8,7 @@ import ErrorBoundary from '@/components/error';
 import Overview from '@/pages/overview';
 import {
   MemberOverview,
-  MemberNodeView,
+  MemberNodePage,
   MemberMonitor,
 } from '@/pages/member-cluster';
 import {
@@ -296,7 +296,7 @@ export function getRoutes() {
         },
         {
           path: '/member/node',
-          element: <MemberNodeView />,
+          element: <MemberNodePage />,
           handle: {
             sidebarKey: 'MEMBER_NODE',
             sidebarName: '节点管理',

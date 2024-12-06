@@ -1,53 +1,45 @@
-import { karmadaClient } from './base';
+import {
+    IResponse,
+    karmadaClient,
+    Labels,
+} from './base';
 
-// export interface ObjectMeta {
-//     name: string;
-//     creationTimestamp: string;
-//     uid: string;
-//     labels?: Record<string, string>;
-// }
-
-// export interface TypeMeta {
-//     kind: string;
-// }
-
-// export interface Node {
-//     objectMeta: ObjectMeta;
-//     typeMeta: TypeMeta;
-// }
-
-export interface NodeDetail {
-    items: Array<{
-        objectMeta: {
-            name: string;
-            uid: string;
-            labels?: { [key: string]: string }; // 可选的 labels 属性
+export interface Node {
+    objectMeta: {
+        name: string;
+        uid: string;
+        labels: Labels;
+    };
+    status: {
+        capacity: {
+            cpu: string;
+            memory: string;
+            pods: string;
         };
-        status: {
-            capacity: {
-                cpu: string;
-                memory: string;
-                pods: string;
-            };
-            addresses?: Array<{
-                type: string;
-                address: string;
-            }>; // 可选的 addresses 属性
-            conditions?: Array<{
-                type: string;
-                status: string;
-                lastHeartbeatTime: string;
-                lastTransitionTime: string;
-                reason: string;
-                message: string;
-            }>; // 可选的 conditions 属性
-        };
-    }>;
+        addresses: Array<{
+            type: string;
+            address: string;
+        }>;
+        conditions: Array<{
+            type: string;
+            status: string;
+            lastHeartbeatTime: string;
+            lastTransitionTime: string;
+            reason: string;
+            message: string;
+        }>;
+    };
 }
 
-export async function GetNodeDetail(clusterName: string) {
-    const resp = await karmadaClient.get(
-        `/member/${clusterName}/node`,
-    );
+export async function GetNodes(clusterName: string) {
+    const resp = await karmadaClient.get<
+        IResponse<{
+            errors: string[];
+            listMeta: {
+                totalItems: number;
+            };
+            items: Node[];
+        }>
+    >(`/member/${clusterName}/node`);
     return resp.data;
 }

@@ -8,10 +8,6 @@ import {
   DeleteCluster,
   GetClusterDetail,
 } from '@/services/cluster';
-import { NodeDetail } from '@/services/node';
-import {
-  GetNodeDetail
-} from '@/services/node';
 import {
   Badge,
   Tag,
@@ -26,7 +22,6 @@ import {
 } from 'antd';
 import { Icons } from '@/components/icons';
 import NewClusterModal from './new-cluster-modal';
-import NodeDetailModal from './new-node-modal';
 import { useState } from 'react';
 function getPercentColor(v: number): string {
   // 0~60 #52C41A
@@ -39,12 +34,6 @@ function getPercentColor(v: number): string {
   } else {
     return '#F5222D';
   }
-}
-
-interface ModalData {
-  open: boolean;
-  mode: string;
-  nodeDetail: NodeDetail;
 }
 
 const ClusterManagePage = () => {
@@ -64,14 +53,6 @@ const ClusterManagePage = () => {
     mode: 'create',
     open: false,
   });
-  const [modalData, setNodeModalData] = useState<ModalData>({
-    open: false,
-    mode: 'edit',
-    nodeDetail: { items: [] }, // 初始化为一个空的 items 数组
-  });
-  const handleCloseModal = () => {
-    setNodeModalData({ ...modalData, open: false });
-  };
   const columns: TableColumnProps<Cluster>[] = [
     {
       title: i18nInstance.t('c3f28b34bbdec501802fa403584267e6'),
@@ -201,14 +182,6 @@ const ClusterManagePage = () => {
             <Button
               size={'small'}
               type="link"
-              onClick={async () => {
-                const ret = await GetNodeDetail(r.objectMeta.name);
-    setNodeModalData({
-      open: true,
-      mode: 'edit',
-      nodeDetail: ret.data,
-    });
-              }}
             >
               {i18nInstance.t('607e7a4f377fa66b0b28ce318aab841f')}
             </Button>
@@ -274,14 +247,6 @@ const ClusterManagePage = () => {
         >
           {i18nInstance.t('4cd980b26c5c76cdd4a5c5e44064d6da')}
         </Button>
-      </div>
-
-      <div>
-      <NodeDetailModal
-        open={modalData.open}
-        onClose={handleCloseModal}
-        nodeDetail={modalData.nodeDetail}
-      />
       </div>
 
       <Table

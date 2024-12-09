@@ -376,7 +376,7 @@ export function getRoutes() {
               element: <MemberMonitor />,
               handle: {
                 sidebarKey: 'MEMBER_MONITOR_APP',
-                sidebarName: '应用监控',
+                sidebarName: 'Eureka应用状态',
               },
             },
           ],

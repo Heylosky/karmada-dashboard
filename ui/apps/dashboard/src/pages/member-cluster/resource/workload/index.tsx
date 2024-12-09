@@ -12,7 +12,6 @@ import {
   TableColumnProps,
 } from 'antd';
 import { Icons } from '@/components/icons';
-import { GetNamespaces } from '@/services/namespace';
 import type { DeploymentWorkload } from '@/services/workload';
 import { GetMemberWorkloads } from '@/services/member/workload.ts';
 import { useQuery } from '@tanstack/react-query';
@@ -27,6 +26,7 @@ import { stringify } from 'yaml';
 import TagList from '@/components/tag-list';
 import { WorkloadKind } from '@/services/base.ts';
 import { useCluster } from '@/hooks/cluster-context';
+import { GetMemberNamespaces } from '@/services/member/namespace.ts';
 
 const WorkloadPage = () => {
   const [filter, setFilter] = useState<{
@@ -38,10 +38,11 @@ const WorkloadPage = () => {
     selectedWorkSpace: '',
     searchText: '',
   });
+  const { cluster } = useCluster();
   const { data: nsData, isLoading: isNsDataLoading } = useQuery({
-    queryKey: ['GetNamespaces'],
+    queryKey: ['GetMemberNamespaces'],
     queryFn: async () => {
-      const clusters = await GetNamespaces({});
+      const clusters = await GetMemberNamespaces({clustername: cluster}, {});
       return clusters.data || {};
     },
   });
@@ -54,7 +55,6 @@ const WorkloadPage = () => {
       };
     });
   }, [nsData]);
-  const { cluster } = useCluster();
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['GetMemberWorkloads', JSON.stringify(filter)],
     queryFn: async () => {

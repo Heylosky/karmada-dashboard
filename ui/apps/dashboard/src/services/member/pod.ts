@@ -1,12 +1,11 @@
-import { karmadaClient } from '../base';
+import {
+    convertDataSelectQuery,
+    DataSelectQuery,
+    IResponse,
+    karmadaClient,
+} from '../base';
 
-// 定义 PodList 接口
-export interface PodList {
-    items: PodDetail[];
-}
-
-// 定义 PodDetail 接口
-export interface PodDetail {
+export interface Pod {
     objectMeta: {
         name: string;
         namespace: string;
@@ -27,9 +26,18 @@ interface PodCondition {
     lastTransitionTime: string;
 }
 
-export async function GetPodDetail(clusterName: string) {
-    const resp = await karmadaClient.get(
-        `/member/${clusterName}/pod`,
-    );
+export async function GetMemberPods(params: {clustername: string;}, query: DataSelectQuery) {
+    const { clustername } = params;
+    const resp = await karmadaClient.get<
+        IResponse<{
+            errors: string[];
+            listMeta: {
+                totalItems: number;
+            };
+            items: Pod[];
+        }>
+    >(`/member/${clustername}/pod`, {
+        params: convertDataSelectQuery(query),
+    });
     return resp.data;
 }

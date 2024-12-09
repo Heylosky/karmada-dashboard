@@ -4,19 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 import {
   Button,
   Input,
-  message,
   Space,
   Table,
   TableColumnProps,
   Badge,
 } from 'antd';
-import { GetNamespaces } from '@/services/namespace.ts';
-import type { Namespace } from '@/services/namespace.ts';
 import type { Node } from '@/services/node.ts'
-import { Icons } from '@/components/icons';
-import dayjs from 'dayjs';
 import { useWindowSize } from '@uidotdev/usehooks';
-import { DeleteResource } from '@/services/unstructured';
 import { useState } from 'react';
 import { DataSelectQuery } from '@/services/base.ts';
 import TagList from '@/components/tag-list';
@@ -24,7 +18,7 @@ import { GetNodes } from '@/services/node.ts'
 
 const MemberNodePage = () => {
   const [searchFilter, setSearchFilter] = useState('');
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['GetNodes', searchFilter],
     queryFn: async () => {
       const query: DataSelectQuery = {};
@@ -92,8 +86,6 @@ const MemberNodePage = () => {
     },
   ];
 
-  const [messageApi, messageContextHolder] = message.useMessage();
-
   return (
     <Panel>
       <div className={'flex flex-row justify-between mb-4'}>
@@ -112,8 +104,6 @@ const MemberNodePage = () => {
         loading={isLoading}
         dataSource={data?.items || []}
       />
-
-      {messageContextHolder}
     </Panel>
   );
 };

@@ -26,6 +26,30 @@ interface PodCondition {
     lastTransitionTime: string;
 }
 
+export interface PodDetail {
+    metadata: {
+        name: string;
+        generateName: string;
+        namespace: string;
+        uid: string;
+        resourceVersion: string;
+        creationTimestamp: string;
+        labels?: { [key: string]: string };
+        annotations?: { [key: string]: string };
+    };
+    spec: {
+        containers: PodContainers[];
+    }
+    status: {
+        conditions: PodCondition[];
+    };
+}
+
+interface PodContainers {
+    name: string;
+    image: string;
+}
+
 export async function GetMemberPods(params: {clustername: string;}, query: DataSelectQuery) {
     const { clustername } = params;
     const resp = await karmadaClient.get<
@@ -39,5 +63,22 @@ export async function GetMemberPods(params: {clustername: string;}, query: DataS
     >(`/member/${clustername}/pod`, {
         params: convertDataSelectQuery(query),
     });
+    return resp.data;
+}
+
+export async function GetMemberPodDetail(params: {
+    clustername: string;
+    namespace?: string;
+    name: string;
+}) {
+    const { clustername, name, namespace } = params;
+    const url = `/member/${clustername}/pod/${namespace}/${name}`;
+    const resp = await karmadaClient.get<
+        IResponse<
+            {
+                errors: string[];
+            } & PodDetail
+        >
+    >(url);
     return resp.data;
 }

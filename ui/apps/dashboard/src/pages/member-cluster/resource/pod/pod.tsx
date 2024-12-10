@@ -16,6 +16,9 @@ import { useMemo, useState } from 'react';
 import { DataSelectQuery } from '@/services/base.ts';
 import { useCluster } from '@/hooks/cluster-context';
 import { GetMemberNamespaces } from '@/services/member/namespace.ts';
+import PodDetailDrawer, {
+  PodDetailDrawerProps,
+} from './pod-detail-drawer.tsx';
 
 const MemberPodPage = () => {
   const [searchFilter, setSearchFilter] = useState<{
@@ -51,6 +54,13 @@ const MemberPodPage = () => {
       return clusters.data || {};
     },
   });
+  const [drawerData, setDrawerData] = useState<
+    Omit<PodDetailDrawerProps, 'onClose'>
+  >({
+    open: false,
+    namespace: '',
+    name: '',
+  });
   const size = useWindowSize();
   console.log('size.width', size?.width);
   const columns: TableColumnProps<Pod>[] = [
@@ -77,7 +87,17 @@ const MemberPodPage = () => {
       render: (_, r) => {
         return (
           <Space.Compact>
-            <Button size={'small'} type="link">
+            <Button
+              size={'small'}
+              type="link"
+              onClick={() => {
+                setDrawerData({
+                  open: true,
+                  name: r.objectMeta.name,
+                  namespace: r.objectMeta.namespace,
+                });
+              }}
+            >
               {i18nInstance.t('607e7a4f377fa66b0b28ce318aab841f')}
             </Button>
           </Space.Compact>
@@ -120,6 +140,19 @@ const MemberPodPage = () => {
         columns={columns}
         loading={isLoading}
         dataSource={data?.items || []}
+      />
+
+      <PodDetailDrawer
+        open={drawerData.open}
+        name={drawerData.name}
+        namespace={drawerData.namespace}
+        onClose={() => {
+          setDrawerData({
+            open: false,
+            namespace: '',
+            name: '',
+          });
+        }}
       />
     </Panel>
   );

@@ -5,7 +5,6 @@ import {
   Card,
   Statistic,
   Tag,
-  Typography,
 } from 'antd';
 import { GetMemberPodDetail } from '@/services/member/pod';
 import { useQuery } from '@tanstack/react-query';

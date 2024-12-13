@@ -1,23 +1,18 @@
 import i18nInstance from '@/utils/i18n';
 import Panel from '@/components/panel';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Button,
-  Input,
-  Space,
-  Table,
-  TableColumnProps,
-  Badge,
-} from 'antd';
-import type { Node } from '@/services/node.ts'
+import { Button, Input, Space, Table, TableColumnProps, Badge } from 'antd';
+import type { Node } from '@/services/node.ts';
 import { useWindowSize } from '@uidotdev/usehooks';
 import { useState } from 'react';
 import { DataSelectQuery } from '@/services/base.ts';
 import TagList from '@/components/tag-list';
-import { GetNodes } from '@/services/node.ts'
+import { GetNodes } from '@/services/node.ts';
+import { useCluster } from '@/hooks/cluster-context';
 
 const MemberNodePage = () => {
   const [searchFilter, setSearchFilter] = useState('');
+  const { cluster } = useCluster();
   const { data, isLoading } = useQuery({
     queryKey: ['GetNodes', searchFilter],
     queryFn: async () => {
@@ -25,7 +20,7 @@ const MemberNodePage = () => {
       if (searchFilter) {
         query.filterBy = ['name', searchFilter];
       }
-      const clusters = await GetNodes('member1');
+      const clusters = await GetNodes(cluster);
       return clusters.data || {};
     },
   });
@@ -63,18 +58,30 @@ const MemberNodePage = () => {
       },
     },
     {
+      title: '节点IP',
+      key: 'nodeIP',
+      width: 200,
+      render: (_, r) => {
+        return r.status.addresses[0].address;
+      },
+    },
+    {
       title: i18nInstance.t('e4b51d5cd0e4f199e41c25be1c7591d3'),
       dataIndex: 'ready',
       key: 'ready',
       render: (_, r) => (
-          <Badge status={r.status.conditions[4].status === 'True' ? 'success' : 'error'}/>
+        <Badge
+          status={
+            r.status.conditions[4].status === 'True' ? 'success' : 'error'
+          }
+        />
       ),
     },
     {
       title: i18nInstance.t('2b6bc0f293f5ca01b006206c2535ccbc'),
       key: 'op',
       width: 200,
-      render: (_, r) => {
+      render: () => {
         return (
           <Space.Compact>
             <Button size={'small'} type="link">

@@ -4,19 +4,17 @@ import {
   Button,
   Input,
   message,
-  Popconfirm,
   Segmented,
   Select,
   Space,
   Table,
   TableColumnProps,
 } from 'antd';
-import { Icons } from '@/components/icons';
 import type { DeploymentWorkload } from '@/services/workload';
 import { GetMemberWorkloads } from '@/services/member/workload.ts';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
-import { DeleteResource, GetResource } from '@/services/unstructured.ts';
+import { GetResource } from '@/services/unstructured.ts';
 import NewWorkloadEditorModal from './new-workload-editor-modal.tsx';
 import WorkloadDetailDrawer, {
   WorkloadDetailDrawerProps,
@@ -42,7 +40,7 @@ const WorkloadPage = () => {
   const { data: nsData, isLoading: isNsDataLoading } = useQuery({
     queryKey: ['GetMemberNamespaces'],
     queryFn: async () => {
-      const clusters = await GetMemberNamespaces({clustername: cluster}, {});
+      const clusters = await GetMemberNamespaces({ clustername: cluster }, {});
       return clusters.data || {};
     },
   });
@@ -167,30 +165,8 @@ const WorkloadPage = () => {
                 toggleShowModal(true);
               }}
             >
-              {i18nInstance.t('95b351c86267f3aedf89520959bce689')}
+              YAML
             </Button>
-
-            <Popconfirm
-              placement="topRight"
-              title={`${i18nInstance.t('fc763fd5ddf637fe4ba1ac59e10b8d3a', '确认要删除')}${r.objectMeta.name}${i18nInstance.t('627ce40030fcda39210cca054bb77775', '工作负载么')}`}
-              onConfirm={async () => {
-                // todo after delete, need to wait until resource deleted
-                const ret = await DeleteResource({
-                  kind: r.typeMeta.kind,
-                  name: r.objectMeta.name,
-                  namespace: r.objectMeta.namespace,
-                });
-                if (ret.code === 200) {
-                  await refetch();
-                }
-              }}
-              okText={i18nInstance.t('e83a256e4f5bb4ff8b3d804b5473217a')}
-              cancelText={i18nInstance.t('625fb26b4b3340f7872b411f401e754c')}
-            >
-              <Button size={'small'} type="link" danger>
-                {i18nInstance.t('2f4aaddde33c9b93c36fd2503f3d122b')}
-              </Button>
-            </Popconfirm>
           </Space.Compact>
         );
       },
@@ -247,16 +223,6 @@ const WorkloadPage = () => {
             ]}
           />
         </div>
-        <Button
-          type={'primary'}
-          icon={<Icons.add width={16} height={16} />}
-          className="flex flex-row items-center"
-          onClick={() => {
-            toggleShowModal(true);
-          }}
-        >
-          {i18nInstance.t('96d6b0fcc58b6f65dc4c00c6138d2ac0')}
-        </Button>
       </div>
       <div className={'flex flex-row space-x-4 mb-4'}>
         <h3 className={'leading-[32px]'}>
@@ -345,4 +311,5 @@ const WorkloadPage = () => {
     </Panel>
   );
 };
+
 export default WorkloadPage;

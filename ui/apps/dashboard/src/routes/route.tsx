@@ -15,6 +15,8 @@ import {
   MemberPodView,
   MemberNamespacePage,
   MemberStoragePage,
+  MemberService,
+  MemberConfig,
 } from '@/pages/member-cluster/resource'
 import {
   MultiCloudConfig,
@@ -338,7 +340,7 @@ export function getRoutes() {
             },
             {
               path: 'service',
-              element: <MultiCloudService />,
+              element: <MemberService />,
               handle: {
                 sidebarKey: 'MEMBER_RESOURCE_SERVICE',
                 sidebarName: i18nInstance.t('4653569c7943335f62caa11e38d48aa0'),
@@ -346,7 +348,7 @@ export function getRoutes() {
             },
             {
               path: 'config',
-              element: <MultiCloudConfig />,
+              element: <MemberConfig />,
               handle: {
                 sidebarKey: 'MEMBER_RESOURCE_CONFIG',
                 sidebarName: i18nInstance.t('837d8a6473195b8b5e85d58a72cb9c7e'),

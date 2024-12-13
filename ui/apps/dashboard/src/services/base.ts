@@ -10,7 +10,8 @@ if (!pathPrefix.endsWith('/')) {
 }
 export const routerBase = pathPrefix;
 // const baseURL: string = _.join([pathPrefix, 'api/v1'], '');
-const baseURL: string = _.join(['http://192.168.195.12:38000/', 'api/v1'], '');
+// const baseURL: string = _.join(['http://192.168.195.12:38000/', 'api/v1'], '');
+const baseURL: string = _.join(['http://12.0.216.149:32200/', 'api/v1'], '');
 
 export const karmadaClient = axios.create({
   baseURL,

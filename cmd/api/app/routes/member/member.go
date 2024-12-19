@@ -8,6 +8,7 @@ import (
 	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/deployment"
 	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/ingress"
 	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/job"
+	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/monitor"
 	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/namespace"
 	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/node"
 	_ "github.com/karmada-io/dashboard/cmd/api/app/routes/member/pod"

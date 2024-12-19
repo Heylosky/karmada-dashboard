@@ -8,6 +8,7 @@ import (
 	"github.com/karmada-io/dashboard/pkg/client"
 	"github.com/karmada-io/dashboard/pkg/config"
 	"github.com/karmada-io/dashboard/pkg/environment"
+	"github.com/karmada-io/dashboard/pkg/monitor"
 	"github.com/karmada-io/karmada/pkg/sharedcli/klogflag"
 	"github.com/spf13/cobra"
 	cliflag "k8s.io/component-base/cli/flag"
@@ -95,6 +96,7 @@ func run(ctx context.Context, opts *options.Options) error {
 	ensureAPIServerConnectionOrDie()
 	serve(opts)
 	config.InitDashboardConfig(client.InClusterClient(), ctx.Done())
+	monitor.InitMonitorConfig(client.InClusterClient(), ctx.Done())
 	select {
 	case <-ctx.Done():
 		os.Exit(0)
